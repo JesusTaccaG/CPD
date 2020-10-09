@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <semaphore.h>
-#define limit 64
+#define limit 8
 
 pthread_t hilos[limit]; 
 long long thread_count=limit;

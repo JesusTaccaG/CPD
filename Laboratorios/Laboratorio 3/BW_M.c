@@ -6,7 +6,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <sys/time.h>
-#define temp 1
+#define temp 8
 pthread_t hilos[temp]; 
 pthread_mutex_t mutex;
 int flag=0;
@@ -16,7 +16,6 @@ long thread_count=temp;
 long n=pow(10,8);
 
 void* Thread_sum(void* rank){
-	//printf("%ld\n",pthread_self() );
 	long my_rank = (long) rank;
 	double factor;
 	long long i;
@@ -29,7 +28,7 @@ void* Thread_sum(void* rank){
 		factor = 1.0;
 	else
 		factor = -1.0;
-	printf("%lld, %lld\n",my_first_i,my_last_i );
+	//printf("%lld, %lld\n",my_first_i,my_last_i );
 	clock_t start, finish;
 	start= clock();
 
@@ -70,7 +69,7 @@ static void *Thread_sum2(void *rank)
 	for (i = my_first_i; i < my_last_i; i++, factor = -factor){
 		my_sum += factor/(2*i+1);
 	}
-	while (hilos[flag] != pthread_self());
+	while (flag != my_rank);
 	sum+=my_sum;
 
 	finish= clock();
@@ -86,7 +85,7 @@ int main(){
 	int error;
 	for (int i = 0; i < temp; ++i)
 	 {
-	 	error = pthread_create(&(hilos[i]), NULL, &Thread_sum2, (void*)i);
+	 	error = pthread_create(&(hilos[i]), NULL, &Thread_sum, (void*)i);
 	 	if (error!=0)
 	 	{
 	 		printf("pthread %d no puede ser creado: [%s]\n", i, strerror(error));

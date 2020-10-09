@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <semaphore.h>
-#define limit 16
+#define limit 8
 
 pthread_t hilos[limit]; 
 int counter = 0;
@@ -64,6 +64,7 @@ void* Thread_work_CV(void* rank) {
 		while (pthread_cond_wait(&cond_var, &mutex) != 0);
 	}
 	pthread_mutex_unlock(&mutex);
+	printf("Puede continuar\n");
 }
 
 
